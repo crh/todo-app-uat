@@ -1,0 +1,25 @@
+# Maven output
+target/
+**/target/
+
+# Local Maven cache created for isolated execution
+.m2/
+
+# IntelliJ and IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs / temp
+*.log
+*.tmp
+*.swp
+*.DS_Store
+
+# Node/npm
+node_modules/
+
+# OS trash
+Thumbs.db
+Desktop.ini

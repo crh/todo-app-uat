@@ -1,0 +1,27 @@
+name: Serenity Screenplay CI
+
+on:
+  push: {}
+
+jobs:
+  serenity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run Serenity JVM tests
+        run: mvn -B clean verify
+
+      - name: Upload Serenity HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenity-report
+          path: target/site/serenity
