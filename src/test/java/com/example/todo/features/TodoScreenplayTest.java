@@ -2,8 +2,10 @@ package com.example.todo.features;
 
 import com.example.todo.pages.TodoPage;
 import com.example.todo.questions.TheTodoList;
+import com.example.todo.reporting.BrowserConsoleLogReporter;
 import com.example.todo.tasks.AddTask;
 import com.example.todo.tasks.DeleteTask;
+import net.serenitybdd.annotations.Narrative;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.core.Serenity;
 import net.serenitybdd.screenplay.Actor;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Narrative(text = "Toby keeps a GitHub-themed todo board tidy while Serenity captures UI interactions for living documentation.")
 @ExtendWith(SerenityJUnit5Extension.class)
 class TodoScreenplayTest {
 
@@ -34,6 +37,7 @@ class TodoScreenplayTest {
 
     @AfterEach
     void tearDown() {
+        BrowserConsoleLogReporter.attachLogs(browser);
         Serenity.getWebdriverManager().closeCurrentDrivers();
     }
 
