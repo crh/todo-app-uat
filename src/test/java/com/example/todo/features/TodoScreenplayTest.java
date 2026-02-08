@@ -18,6 +18,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +34,7 @@ class TodoScreenplayTest {
 
     @BeforeEach
     void setUp() {
+        ensureChromeUserDataDir();
         browser = Serenity.getDriver();
         toby.can(BrowseTheWeb.with(browser));
     }
@@ -72,5 +76,13 @@ class TodoScreenplayTest {
         toby.attemptsTo(Open.url(TodoPage.LOCAL_URL));
         ((JavascriptExecutor) browser).executeScript("window.localStorage.clear();");
         toby.attemptsTo(Open.url(TodoPage.LOCAL_URL));
+    }
+
+    private void ensureChromeUserDataDir() {
+        try {
+            Files.createDirectories(Path.of("/tmp/chrome"));
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to create Chrome user data directory", e);
+        }
     }
 }

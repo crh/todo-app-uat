@@ -1,10 +1,10 @@
 package com.example.todo.reporting;
 
 import net.serenitybdd.core.Serenity;
-import org.openqa.selenium.LogEntry;
-import org.openqa.selenium.LogEntries;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogEntries;
 
 import java.time.Instant;
 import java.time.ZoneId;
