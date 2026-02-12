@@ -17,15 +17,22 @@
         <maven.failsafe.plugin.version>3.1.2</maven.failsafe.plugin.version>
         <serenity.maven.plugin.version>5.2.2</serenity.maven.plugin.version>
         <maven.failsafe.plugin.version>3.5.2</maven.failsafe.plugin.version>
+        <byte-buddy.version>1.18.3</byte-buddy.version>
     </properties>
 
     <dependencies>
-    <dependency>
-    <groupId>org.junit.platform</groupId>
-    <artifactId>junit-platform-launcher</artifactId>
-    <version>1.11.1</version>
-    <scope>test</scope>
-</dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${byte-buddy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.11.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
@@ -85,9 +92,35 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>copy-bytebuddy-agent</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>net.bytebuddy</groupId>
+                                    <artifactId>byte-buddy-agent</artifactId>
+                                    <version>${byte-buddy.version}</version>
+                                    <outputDirectory>${project.build.directory}/bytebuddy</outputDirectory>
+                                    <destFileName>byte-buddy-agent-${byte-buddy.version}.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven.failsafe.plugin.version}</version>
                 <configuration>
+                    <argLine>-javaagent:${project.build.directory}/bytebuddy/byte-buddy-agent-${byte-buddy.version}.jar -Djdk.attach.allowAttachSelf=true</argLine>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
